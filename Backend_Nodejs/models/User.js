@@ -1,34 +1,38 @@
 
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+const BookSchema=require("../models/Book.js")
 const Schema=mongoose.Schema;
-
 const CartItemSchema=new Schema({
   bookId:{type:mongoose.Schema.Types.ObjectId,ref:'Book'},
   bookName:String,
   quantity:Number,
   price:Number
 })
-
 const AdressSchema=new Schema({
- State:String,
- District:String,
- PinCode:String,
- LandMark:String
+ State:{type:String,},
+ District:{type:String,},
+ PinCode:{type:String},
+ LandMark:{type:String,},
 })
 const UserSchema=new Schema({
- name:String,
+ name:{
+  type:String,
+  required:true
+ },
  email:{
     type:String,
     required:true,
     unique:true
  },
- password:String,
+ profile_pic:String,
+ password:{
+  type:String,
+  required:true,
+  unique:true
+ },
  cart:[CartItemSchema],
- isAdmin: {
-    type: Boolean,
-    default: false
-},
  Address:{AdressSchema},
+ history:[BookSchema],
  forgotPasswordToken: String,
  forgotPasswordTokenExpiry: Date,
  verifyToken: String,
@@ -37,4 +41,6 @@ const UserSchema=new Schema({
 {
     timestamps:true
 });
- const User=mongoose.model('User',UserSchema)
+ const User=mongoose.model('User',UserSchema);
+
+ module.exports=User;

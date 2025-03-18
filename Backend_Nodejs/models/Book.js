@@ -12,8 +12,13 @@ const BookSchema=new Schema({
         min:0,
         max:100
     }
-   }  ,
+   },
+
     {
      timestamps:true
     }
 )
+ 
+const Book=mongoose.model("Book",BookSchema);
+
+module.exports={Book,BookSchema}
