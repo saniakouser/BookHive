@@ -23,7 +23,7 @@ const UserRegister= async()=>{
     }
 }
 
-const LoginUser=async()=>{
+const LoginUser=async(req,res)=>{
    let{email,password}=req.body
    let existing_user=User.findOne({email});
    if(!existing_user){
@@ -41,7 +41,7 @@ const LoginUser=async()=>{
    }
 }
 
-const updateUser = async () => {
+const updateUser = async (req,res) => {
     try {
       let {emailId, updateData}=req.body
       const updatedUser = await User.findByIdAndUpdate(
@@ -56,3 +56,49 @@ const updateUser = async () => {
     }
   };
   
+// & forget password
+  const forgrtPassword= async(req,res)=>{
+    const {email}=req.body;
+    let user=User.findOne({email});
+    if(!user){
+      return res.json({message:"user not found"})
+    }
+   const forget_token=jwt.sign({email:user.email},process.env.JWT_SECRET, { expiresIn: "15m" })
+   await User.findOneAndUpdate(
+    { email: email }, 
+    { 
+        $set: {
+            forgotPasswordToken: forget_token,
+            forgotPasswordTokenExpiry: Date.now() + 15 * 60 * 1000
+        }
+    },
+    { new: true } 
+);
+  }
+
+ const ResetPassword= async(req,res)=>{
+ 
+  try{
+    const{token, newPassword}=req.body;
+    if(!token){
+            return res.status(401).json({ message: "No token." });
+        }
+        const data=jwt.verify(token,process.env.JWT_SECRET);
+        const user=User.findOne({email:data.email});
+        if (!user || user.forgotPasswordToken !== token || user.forgotPasswordTokenExpiry < Date.now()) {
+          return res.status(400).json({ message: "Invalid or expired token" });
+      }  
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.forgotPasswordToken = null;
+      user.forgotPasswordTokenExpiry = null;
+      await user.save();
+      return res.json({ message: "Password reset successful" });
+  }
+
+  catch (error) {
+      return res.status(500).json({ message: "Internal Server Error" });
+  }
+       
+ }
+ 
+module.exports={UserRegister,LoginUser,forgrtPassword,ResetPassword}

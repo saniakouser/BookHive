@@ -1,0 +1,72 @@
+/* .register-container {
+    width: 350px;
+    margin: 50px auto;
+    padding: 40px;
+    background: black;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.book-icon {
+    font-size: 32px;
+    color: white;
+}
+
+h1 {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: gray;
+}
+
+p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: white;
+}
+
+p a {
+    color: white;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+} */

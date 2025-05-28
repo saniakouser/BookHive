@@ -1,23 +1,26 @@
 from flask import Flask, jsonify, request  
+from flask_cors import CORS
 import pickle
 import pandas as pd
 import numpy as np
 
 app = Flask(__name__)
-
-
-popularBooks = pickle.load(open('./models/popular_book', 'rb'))
+CORS(app,origins=["http://localhost:3000"])
+popularBooks = pickle.load(open('./models/popular_book.pkl', 'rb'))
 pt = pickle.load(open('./models/pt.pkl', 'rb'))
 books = pickle.load(open('./models/books.pkl', 'rb'))
 sm = pickle.load(open('./models/similarity_score.pkl', 'rb'))
 
 @app.route('/')
 def index():
-    if isinstance(popularBooks, pd.DataFrame):
-        data = popularBooks[['Book-Title', 'Book-Author', 'Image-URL-M', 'num-Rating']].to_dict(orient='records')
-    else:
-        data = popularBooks  
-    return jsonify(data) 
+     if popularBooks is None:
+        return jsonify({"error": "Model file not found"}), 500
+     try:
+        pb = popularBooks.drop(columns=["num-Rating"])
+        return jsonify(pb.to_dict(orient="records"))
+     except IndexError:
+        return jsonify({"error": "Book not found in the dataset"}), 404
+    
 
 # @app.route('/recommend_books', methods=['POST']) 
 # def recommend():

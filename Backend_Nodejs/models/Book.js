@@ -6,12 +6,15 @@ const BookSchema=new Schema({
     Title:String,
     Author:String,
     image:String,
-    Reviews:[],
+    Reviews:Number,
+    Genre:String,
     discount:{
         type:Number,
         min:0,
         max:100
-    }
+    },
+    Customer_Review:String,
+    Price:Number
    },
 
     {

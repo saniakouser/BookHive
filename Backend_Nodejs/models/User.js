@@ -5,6 +5,7 @@ const Schema=mongoose.Schema;
 const CartItemSchema=new Schema({
   bookId:{type:mongoose.Schema.Types.ObjectId,ref:'Book'},
   bookName:String,
+  bookImage:String,
   quantity:Number,
   price:Number
 })
@@ -32,7 +33,7 @@ const UserSchema=new Schema({
  },
  cart:[CartItemSchema],
  Address:{AdressSchema},
- history:[BookSchema],
+ history:[ { type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
  forgotPasswordToken: String,
  forgotPasswordTokenExpiry: Date,
  verifyToken: String,
