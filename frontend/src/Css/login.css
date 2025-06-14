@@ -1,4 +1,4 @@
-/* .login-container {
+.login-container {
     width: 350px;
     margin: 50px auto;
     padding: 40px;
@@ -21,7 +21,7 @@ form input {
     border-radius: 5px;
 }
 
-/* button {
+button {
     width: 100%;
     padding: 10px 15px;
     margin: 10px 0;
@@ -31,9 +31,9 @@ form input {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-} */
+}
 
-/* button:hover {
+button:hover {
     background: blue;
 }
 
@@ -50,4 +50,4 @@ p a {
 
 p a:hover {
     text-decoration: underline;
-} */ 
+}

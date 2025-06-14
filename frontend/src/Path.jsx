@@ -10,23 +10,24 @@ import RestrictPath from "./pages/RestrictPath";
 import { BrowserRouter, createBrowserRouter,RouterProvider, } from "react-router-dom";
 
 
-const router=createBrowserRouter([
- {
-  path:'/',
-  element:<Main/>,
-  children:[
-   {path:'/',element:<Home/>},
-   {path:'/book/:bookId',element:<SingleProduct/>},
-   {element:<RestrictPath/>,
-     children:[
-      {path:'/cart',element:<Cart/>},
-      {path:'/user',element:<User/>},
-      {path:'/order',element:<Orderpage/>},
-     ]
-   },
-   {path:'/register',element:<Register/>},
-   {path:'/login',element:<Login/>}
-  ]
- }
-])
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Main />,
+    children: [
+      {
+        element: <RestrictPath />,
+        children: [
+          { path: '/', element: <Home /> },
+          { path: '/cart', element: <Cart /> },
+          { path: '/user', element: <User /> },
+          { path: '/order', element: <Orderpage /> },
+        ],
+      },
+      { path: '/book/:bookId', element: <SingleProduct /> },
+      { path: '/register', element: <Register /> },
+      { path: '/login', element: <Login /> },
+    ],
+  },
+]);
 export default router
