@@ -5,8 +5,9 @@ import "../Css/login.css";
 
 const Login = () => {
   const [userInput, setUserInput] = useState({ email: "", password: "" });
-  const { setUser } = useAuth();
+  // const { setUser } = useAuth();
   const navigate = useNavigate();
+  const { loginWithToken } = useAuth();
 
   function HandleChange(e) {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
@@ -25,7 +26,9 @@ const Login = () => {
       const data = await res.json();
 
       if (res.ok) {
-        setUser(data.user); 
+        localStorage.setItem("token", data.token);
+        loginWithToken(data.token);
+        // setUser(data.user); 
         navigate("/");
       } else {
         alert(data.message || "Login failed");
