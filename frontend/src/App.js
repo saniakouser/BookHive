@@ -9,11 +9,15 @@ import SingleProduct from "./components/SingleBook";
  import "./Css/navbar.css"
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { RouterProvider } from "react-router-dom";
+import { AuthProvider } from "./Context/AuthContext";
+import router from "./Path";
+
 function App() {
   return (
-    <>
-    <ProfilePage/>
-   </>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }
 
