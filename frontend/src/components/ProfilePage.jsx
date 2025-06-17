@@ -19,26 +19,38 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-      <h2 className="profile-title">Profile</h2>
+      <h2 className="profile-title">My Account</h2>
+
       <div className="profile-section">
-        <div className="profile-info">
+        <div className="profile-card">
+          <h3 className="section-title">User Information</h3>
           <p><strong>Name:</strong> {user.name}</p>
           <p><strong>Email:</strong> {user.email}</p>
         </div>
-        <div className="profile-address">
+
+        <div className="profile-card">
+          <h3 className="section-title">Shipping Address</h3>
           <p><strong>State:</strong> {user.address.state}</p>
           <p><strong>City:</strong> {user.address.city}</p>
           <p><strong>Pincode:</strong> {user.address.pincode}</p>
-          <button className="btn">Change Address</button>
-          <button className="btn">Change Password</button>
+          <div className="button-group">
+            <button className="btn">Change Address</button>
+            <button className="btn">Change Password</button>
+          </div>
         </div>
       </div>
-      
+
       <h3 className="order-title">Order History</h3>
       <ul className="order-list">
         {user.orders.map((order) => (
           <li key={order.id} className="order-item">
-            <strong>{order.item}</strong> - {order.date} (<span className="order-status">{order.status}</span>)
+            <div className="order-details">
+              <strong>{order.item}</strong>
+              <span className="order-date">{order.date}</span>
+            </div>
+            <span className={`order-status ${order.status.toLowerCase()}`}>
+              {order.status}
+            </span>
           </li>
         ))}
       </ul>
