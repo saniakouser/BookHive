@@ -25,7 +25,7 @@ export default function Navbar() {
         <a href="#" className="nav-item active"><FaHome /> Home</a>
         <a href="#"><IoNewspaperSharp /> New Releases</a>
         <a href="#"><MdLibraryBooks /> Recommendations</a>
-        <a href="#"><FaUserCircle /> Account</a>
+        <a href="profile"><FaUserCircle /> Account</a>
         <a href="#" className="sale-item"><FaTags /> SALE</a>
       </nav>
     </>
