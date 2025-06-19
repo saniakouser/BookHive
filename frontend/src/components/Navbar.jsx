@@ -17,12 +17,12 @@ export default function Navbar() {
         </div>
 
         <button className="cart-btn">
-          <FaShoppingCart className="cart-icon" /> $35.19
+          <a href="cart"><FaShoppingCart className="cart-icon" /> $35.19</a>
         </button>
       </header>
 
       <nav className="bottom-nav">
-        <a href="#" className="nav-item active"><FaHome /> Home</a>
+        <a href="/" className="nav-item active"><FaHome /> Home</a>
         <a href="#"><IoNewspaperSharp /> New Releases</a>
         <a href="#"><MdLibraryBooks /> Recommendations</a>
         <a href="profile"><FaUserCircle /> Account</a>

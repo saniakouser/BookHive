@@ -50,7 +50,7 @@ const LoginUser=async(req,res)=>{
       return res.status(400).json({"message":"Password is incoorect"})
     }
     else{
-     const token = jwt.sign({ email: existing_user.email, id: existing_user._id }, "My_secret_key", { expiresIn: "1m" });
+     const token = jwt.sign({ email: existing_user.email, id: existing_user._id }, "My_secret_key", { expiresIn: "30m" });
       // return res.json({ message: "Login successful", token });
       return res.json({ message: "Login successful", token, user: existing_user });
 

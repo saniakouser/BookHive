@@ -29,64 +29,85 @@
    
  
  // ! add to cart
-  const addToCart=async(req,res)=>{
-     const {BookId,qunatity,email}=req.body
-     let findBook=Book.find({BookId});
-      let cart={
-       BookId:findBook[0].BookId,
-       bookName:findBook[0].Title,
-       bookImage:findBook[0].image,
-       quantity:qunatity,
-       price:findBook[0].price*qunatity
-      }
-      let existing_user= await User.findOne({email});
-         if(!existing_user){
-          return res.status(400).json({"message":"user  doesnot exist"});
-         }
-         else{
-            let cart_data=existing_user[0].cart;
-             let updated_cart=[...cart_data,cart]
-            const updatedCart= await User.findByIdAndUpdate(
-                email,
-               { $set: {cart:updated_cart }},
-               { new: true, runValidators: true }
-             );
-             return updatedUser;
-         }
-  }
- // ! remove from cart
- const RemmoveFromCart=async(req,res)=>{
-    let {email,BookId}=req.body;
-    let existingUser= await User.findOne({email});
-    if(!existingUser){
-     return res.status(400).json({"message":"user  doesnot exist"});
+  const addToCart = async (req, res) => {
+    const { bookId, quantity, email } = req.body;
+
+    if (!email || !bookId || !quantity) {
+      return res.status(400).json({ message: "Missing email, bookId, or quantity" });
     }
-    else{
-        let cartData = existingUser[0].cart;
-        cartData = cartData.filter(item => item.BookId !== BookId);
-        
-        const updatedCart = await User.findByIdAndUpdate(
-            email,
-            { $set: { cart: cartData } },
-            { new: true, runValidators: true }
-        );
-        
-        return updatedCart;
- }
- }
- // ! get cart product
-   const getCartProduct=(req,res)=>{
-    let {email}=req.body;
-    let existing_user=User.findOne({email})
-    if(!existing_user){
-        return res.status(400).json({"message":"user  doesnot exist"});
-       }
-       else{
-        let data=existing_user[0].cart
-        res.status(200).json({data})
-   }
+
+    try {
+      const user = await User.findOne({ email });
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const book = await Book.findById(bookId);
+      if (!book) return res.status(404).json({ message: "Book not found" });
+
+      const existingItem = user.cart.find(item => item.bookId.toString() === bookId);
+
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        user.cart.push({
+          bookId: book._id,
+          bookName: book.Title,
+          bookImage: book.image,
+          quantity: quantity,
+          price: book.Price * quantity
+        });
+      }
+
+      await user.save();
+      res.status(200).json({ message: "Book added to cart successfully", cart: user.cart });
+    } catch (err) {
+      console.error("Error in addToCart:", err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
+
+ // ! remove from cart
  
-}
+ const removeFromCart = async (req, res) => {
+  const { email, bookId } = req.body;
+
+  if (!email || !bookId) {
+    return res.status(400).json({ message: "Missing email or bookId" });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.cart = user.cart.filter(item => item.bookId.toString() !== bookId);
+    await user.save();
+
+    res.status(200).json({ message: "Item removed from cart", cart: user.cart });
+  } catch (err) {
+    console.error("Error in removeFromCart:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+ // ! get cart product
+  const getCartProduct = async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Missing email" });
+    }
+
+    try {
+      const user = await User.findOne({ email });
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      res.status(200).json({ cart: user.cart });
+    } catch (err) {
+      console.error("Error in getCartProduct:", err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
    
  //^ add to history
    const add_to_history= async(req,res)=>{
@@ -175,7 +196,7 @@
    return updated_review;
    }
    
-module.exports={getBook}
+module.exports={getBook, addToCart, getCartProduct, removeFromCart}
 
 
 
