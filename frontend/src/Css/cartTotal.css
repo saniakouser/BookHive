@@ -98,6 +98,23 @@
   .remove-item {
     color: red;
   }
+
+  .remove-item-button {
+    background: none;
+    border: 1px solid #e63946;
+    color: #e63946;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+
+  .remove-item-button:hover {
+    background-color: #e63946;
+    color: #fff;
+  }
+
   
   .cart-summary {
     display: flex;
