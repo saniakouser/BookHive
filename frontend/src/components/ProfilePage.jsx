@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../Css/ProfilePage.css";
 
 const ProfilePage = () => {
-  const user = {
-    name: "John Doe",
-    email: "johndoe@example.com",
-    address: {
-      state: "California",
-      city: "Los Angeles",
-      pincode: "90001",
-    },
-    orders: [
-      { id: 1, item: "Red Dress", date: "2024-03-20", status: "Delivered" },
-      { id: 2, item: "Makeup Kit", date: "2024-03-18", status: "Shipped" },
-      { id: 3, item: "High Heels", date: "2024-03-15", status: "Processing" },
-    ],
-  };
+  const [user, setUser] = useState(null);
+  const [showCart, setShowCart] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+
+  const email = localStorage.getItem("email");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.post("http://localhost:8080/auth/get-user", { email });
+        setUser(res.data.user);
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+
+    fetchUser();
+  }, [email]);
+
+  if (!user) return <p>Loading...</p>;
 
   return (
     <div className="profile-container">
@@ -30,9 +37,9 @@ const ProfilePage = () => {
 
         <div className="profile-card">
           <h3 className="section-title">Shipping Address</h3>
-          <p><strong>State:</strong> {user.address.state}</p>
-          <p><strong>City:</strong> {user.address.city}</p>
-          <p><strong>Pincode:</strong> {user.address.pincode}</p>
+          <p><strong>State:</strong> {user.Address?.State || "Not Provided"}</p>
+          <p><strong>District:</strong> {user.Address?.District || "Not Provided"}</p>
+          <p><strong>Pin Code:</strong> {user.Address?.PinCode || "Not Provided"}</p>
           <div className="button-group">
             <button className="btn">Change Address</button>
             <button className="btn">Change Password</button>
@@ -40,20 +47,60 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <h3 className="order-title">Order History</h3>
-      <ul className="order-list">
-        {user.orders.map((order) => (
-          <li key={order.id} className="order-item">
-            <div className="order-details">
-              <strong>{order.item}</strong>
-              <span className="order-date">{order.date}</span>
-            </div>
-            <span className={`order-status ${order.status.toLowerCase()}`}>
-              {order.status}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <div className="extras">
+        <button onClick={() => setShowCart(true)} className="toggle-btn">📚 View Cart Books</button>
+        <button onClick={() => setShowHistory(true)} className="toggle-btn">🕘 View Purchase History</button>
+      </div>
+
+      {showCart && (
+        <div className="popup-overlay" onClick={() => setShowCart(false)}>
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <button className="popup-close-btn" onClick={() => setShowCart(false)}>&times;</button>
+            <h3>Books in Cart</h3>
+            {user.cart.length === 0 ? (
+              <p>No books in cart.</p>
+            ) : (
+              <ul>
+                {user.cart.map((item, index) => (
+                  <li key={index} className="popup-item">
+                    <img src={item.bookImage} alt={item.bookName} className="popup-img" />
+                    <div>
+                      <strong>{item.bookName}</strong>
+                      <p>Quantity: {item.quantity}</p>
+                      <p>Price: ${item.price}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
+
+      {showHistory && (
+        <div className="popup-overlay" onClick={() => setShowHistory(false)}>
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <button className="popup-close-btn" onClick={() => setShowHistory(false)}>&times;</button>
+            <h3>Purchased Books</h3>
+            {user.history.length === 0 ? (
+              <p>No purchase history yet.</p>
+            ) : (
+              <ul>
+                {user.history.map((book, index) => (
+                  <li key={index} className="popup-item">
+                    <img src={book.image} alt={book.Title} className="popup-img" />
+                    <div>
+                      <strong>{book.Title}</strong>
+                      <p>Author: {book.Author}</p>
+                      <p>Price: ${book.Price}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

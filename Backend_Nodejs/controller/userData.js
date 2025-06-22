@@ -72,6 +72,21 @@ const updateUser = async (req,res) => {
       throw error;
     }
   };
+
+  // * Get user
+  const getUser = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email })
+      .populate("history") 
+      .exec();
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
   
 // & forget password
   const forgrtPassword= async(req,res)=>{
@@ -118,4 +133,4 @@ const updateUser = async (req,res) => {
        
  }
  
-module.exports={UserRegister,LoginUser,forgrtPassword,ResetPassword}
+module.exports={UserRegister,LoginUser,forgrtPassword,ResetPassword, getUser}
