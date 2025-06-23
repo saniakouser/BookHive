@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBook, addToCart, getCartProduct, removeFromCart } = require('../controller/Order');
+const { getBook, addToCart, getCartProduct, removeFromCart , searchBookByTitle} = require('../controller/Order');
 
 const bookRouter = express.Router();
 
@@ -14,5 +14,8 @@ bookRouter.post("/get-cart", getCartProduct);
 
 // Remove from cart
 bookRouter.post("/remove-from-cart", removeFromCart);
+
+// search Book
+bookRouter.get("/search", searchBookByTitle);
 
 module.exports = bookRouter;
