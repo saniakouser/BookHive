@@ -15,17 +15,34 @@
    }
   }
 
- // ! get book by title
-   const getBookByTitle= async(req,res)=>{
-      let{book_title}=req.body;
-      let existingBook= await Book.find({book_title})
-      if(!existingBook){
-        res.status(500).json({message:"No books found"});
-      }
-      else{
-        res.status(200).json(existingBook)
-      }
-   }
+ // ! SEARCH book by title (used in frontend search page)
+  const searchBookByTitle = async (req, res) => {
+    const query = req.query.q;
+
+    if (!query) {
+      return res.status(400).json({ message: "Query is required" });
+    }
+
+    try {
+      const books = await Book.find({
+        Title: { $regex: query, $options: 'i' }
+      });
+
+      const formattedBooks = books.map(b => ({
+        _id: b._id,
+        title: b.Title,
+        author: b.Author,
+        price: b.Price,
+        image: b.image
+      }));
+
+      res.status(200).json({ books: formattedBooks });
+    } catch (err) {
+      console.error("Error in searchBookByTitle:", err);
+      res.status(500).json({ message: "Server error" });
+    }
+  };
+
    
  
  // ! add to cart
@@ -196,7 +213,7 @@
    return updated_review;
    }
    
-module.exports={getBook, addToCart, getCartProduct, removeFromCart}
+module.exports={getBook, addToCart, getCartProduct, removeFromCart, searchBookByTitle}
 
 
 

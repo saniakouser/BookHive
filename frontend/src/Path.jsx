@@ -3,8 +3,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
-import ProfilePage from "./components/ProfilePage"; 
-import SingleProduct from "./pages/SingleProduct";
+import ProfilePage from "./components/ProfilePage";
+import SearchPage from "./pages/SearchBook"; 
+import SingleProduct from "./pages/SearchBook";
 import User from "./pages/User";
 import Orderpage from "./pages/Orderpage";
 import RestrictPath from "./pages/RestrictPath";
@@ -23,7 +24,8 @@ const router = createBrowserRouter([
           { path: '/cart', element: <Cart /> },
           { path: '/user', element: <User /> },
           { path: '/order', element: <Orderpage /> },
-          { path: '/profile', element: <ProfilePage />}
+          { path: '/profile', element: <ProfilePage />},
+          { path: '/search', element: <SearchPage />}
         ],
       },
       { path: '/book/:bookId', element: <SingleProduct /> },
