@@ -1,0 +1,37 @@
+.checkout-container {
+  padding: 3rem;
+  text-align: center;
+  background: linear-gradient(to bottom right, #1e1e1e, #121212);
+  min-height: 100vh;
+  color: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.checkout-title {
+  color: #00d4ff;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.checkout-amount {
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+}
+
+.pay-btn {
+  padding: 14px 32px;
+  background-color: #00d4ff;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.pay-btn:hover {
+  background-color: #00b4cc;
+  transform: translateY(-2px);
+}

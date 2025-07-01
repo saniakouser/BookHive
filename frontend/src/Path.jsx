@@ -7,6 +7,7 @@ import ProfilePage from "./components/ProfilePage";
 import SingleProduct from "./pages/SingleProduct";
 import User from "./pages/User";
 import Orderpage from "./pages/Orderpage";
+import CheckoutPage from "./pages/CheckoutPage";
 import RestrictPath from "./pages/RestrictPath";
 import { BrowserRouter, createBrowserRouter,RouterProvider, } from "react-router-dom";
 
@@ -23,7 +24,9 @@ const router = createBrowserRouter([
           { path: '/cart', element: <Cart /> },
           { path: '/user', element: <User /> },
           { path: '/order', element: <Orderpage /> },
-          { path: '/profile', element: <ProfilePage />}
+          { path: '/profile', element: <ProfilePage />},
+          { path: "/checkout", element: <CheckoutPage /> },
+
         ],
       },
       { path: '/book/:bookId', element: <SingleProduct /> },

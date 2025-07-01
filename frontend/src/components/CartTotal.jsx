@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../Css/cartTotal.css";
+import { useNavigate } from "react-router-dom";
 
 const CartTotal = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -8,6 +9,8 @@ const CartTotal = () => {
   const [removingId, setRemovingId] = useState(null);
 
   const email = localStorage.getItem("email");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -83,9 +86,12 @@ const CartTotal = () => {
           <p>Sub-Total</p>
           <span>{totalItems} items</span>
         </div>
-        <h3>${totalPrice.toFixed(2)}</h3>
+        <h3>₹{totalPrice.toFixed(2)*83}</h3>
       </div>
-      <button className="checkout-btn">Checkout</button>
+      <button className="checkout-btn" onClick={() => navigate("/checkout", { state: { amount: totalPrice } })}>
+        Checkout
+      </button>
+
     </div>
   );
 };
